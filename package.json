@@ -1,0 +1,20 @@
+{
+  "name": "figma-variables",
+  "version": "1.0.0",
+  "description": "Pull variables from a Figma file using the REST API.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "get-tokens": "node index.js",
+    "build": "node index.js",
+    "build-tokens": "style-dictionary build --config style-dictionary.config.json",
+    "tokens": "npm run get-tokens && npm run build-tokens"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "style-dictionary": "5.0.0"
+  }
+}
