@@ -7,7 +7,7 @@
   "scripts": {
     "get-tokens": "node index.js",
     "build": "node index.js",
-    "build-tokens": "style-dictionary build --config style-dictionary.config.json",
+    "build-tokens": "style-dictionary build --config style-dictionary.config.js",
     "tokens": "npm run get-tokens && npm run build-tokens"
   },
   "dependencies": {

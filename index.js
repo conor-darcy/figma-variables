@@ -248,11 +248,13 @@ async function main() {
 async function build() {
   try {
     console.log("Starting build process...");
-
-    // Ensure output directory exists
     ensureDirectoryExists(OUTPUT_DIR);
 
-    // Read and validate Figma data
+    // First, fetch variables from Figma
+    console.log("Fetching variables from Figma...");
+    await getLocalFileVariables();
+
+    // Then read and validate Figma data
     console.log("Reading Figma variables...");
     const figmaData = readJsonFile(VARIABLES_PATH);
     if (!figmaData || figmaData.error) {
@@ -266,7 +268,7 @@ async function build() {
 
     // Read and validate Style Dictionary config
     console.log("Reading Style Dictionary config...");
-    const config = readJsonFile(CONFIG_PATH);
+    const config = (await import("./style-dictionary.config.js")).default;
 
     // Build CSS files
     console.log("Building CSS files...");
