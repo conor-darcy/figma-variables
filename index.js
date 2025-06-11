@@ -239,6 +239,17 @@ async function convertVariablesToDTCG() {
   }
 }
 
+async function deleteOutputDirectory() {
+  try {
+    if (fs.existsSync(OUTPUT_DIR)) {
+      await fs.promises.rm(OUTPUT_DIR, { recursive: true, force: true });
+      console.log("Deleted output directory");
+    }
+  } catch (error) {
+    console.error("Error deleting output directory:", error.message);
+  }
+}
+
 async function main() {
   await getLocalFileVariables();
   await convertVariablesToDTCG();
@@ -248,37 +259,8 @@ async function main() {
 async function build() {
   try {
     console.log("Starting build process...");
-    ensureDirectoryExists(OUTPUT_DIR);
-
-    // First, fetch variables from Figma
-    console.log("Fetching variables from Figma...");
-    await getLocalFileVariables();
-
-    // Then read and validate Figma data
-    console.log("Reading Figma variables...");
-    const figmaData = readJsonFile(VARIABLES_PATH);
-    if (!figmaData || figmaData.error) {
-      throw new Error("Invalid Figma data or error in response");
-    }
-
-    // Transform to DTCG format
-    console.log("Transforming to DTCG format...");
-    const dtcgData = figmaToDTCG(figmaData);
-    writeJsonFile(DTCG_PATH, dtcgData);
-
-    // Read and validate Style Dictionary config
-    console.log("Reading Style Dictionary config...");
-    const config = (await import("./style-dictionary.config.js")).default;
-
-    // Build CSS files
-    console.log("Building CSS files...");
-    const styleDictionaryImport = await import("style-dictionary");
-    console.log("Style Dictionary import:", styleDictionaryImport);
-    // Commenting out the rest for now
-    // const StyleDictionary = styleDictionaryImport.default;
-    // const sd = await StyleDictionary.create(config);
-    // await sd.buildAllPlatforms();
-
+    await deleteOutputDirectory();
+    await main();
     console.log("Build completed successfully!");
   } catch (error) {
     console.error("Build failed:", error.message);
