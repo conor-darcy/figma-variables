@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "get-tokens": "node index.js",
-    "build": "node index.js",
     "build-tokens": "style-dictionary build --config style-dictionary.config.js",
-    "tokens": "npm run get-tokens && npm run build-tokens"
+    "tokens": "npm run get-tokens && npm run build-tokens",
+    "styles": "node styles.js"
   },
   "dependencies": {
     "commander": "^11.1.0",
